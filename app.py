@@ -4,7 +4,12 @@ from error import ValueTooSmallError
 from error import ValueTooLargeError
 from error import AlphaError, OffGridError, CrashError
 
-from distutils.errors import DistutilsPlatformError, DistutilsExecError
+from distutils.errors import \
+     DistutilsExecError, DistutilsPlatformError, \
+     CompileError, LibError, LinkError, UnknownFileError
+from distutils.ccompiler import \
+     CCompiler, gen_lib_options
+from distutils import log
 
 from flask import Flask
 
@@ -72,11 +77,6 @@ def health_check():
     logger.info("ping localhost")
     return {"status": 200}
 
-@app.route("/test-exception")
-# ‘/’ URL is bound with hello_world() function.
-def log_test_exception():
-    raise ValueTooSmallError
-
 @app.route("/letter-exception")
 # ‘/’ URL is bound with hello_world() function.
 def log_letter_exception():
@@ -102,6 +102,26 @@ def log_dist_exception():
 # ‘/’ URL is bound with hello_world() function.
 def log_platform_exception():
     raise  DistutilsPlatformError 
+
+@app.route("/compile-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_compile_exception():
+    raise  CompileError 
+
+@app.route("/library-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_library_exception():
+    raise  LibError 
+
+@app.route("/file-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_file_exception():
+    raise  UnknownFileError 
+
+@app.route("/link-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_link_exception():
+    raise  LinkError 
 
 
 # main driver function
