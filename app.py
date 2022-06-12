@@ -2,7 +2,7 @@
 # An object of Flask class is our WSGI application.
 from error import ValueTooSmallError
 from error import ValueTooLargeError
-from error import AlphaError
+from error import AlphaError, OffGridError, CrashError
 from flask import Flask
 
 import json
