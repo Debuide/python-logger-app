@@ -4,6 +4,22 @@ class Error(Exception):
     pass
 
 
+
+class DistutilsError (Exception):
+    """The root of all Distutils evil."""
+    pass
+
+class DistutilsPlatformError (DistutilsError):
+    """We don't know how to do something on the current platform (but
+    we do know how to do it on some platform) -- eg. trying to compile
+    C files on a platform not supported by a CCompiler subclass."""
+    pass
+
+class DistutilsExecError (DistutilsError):
+    """Any problems executing an external program (such as the C
+    compiler, when compiling C files)."""
+    pass
+
 class ValueTooSmallError(Error):
     """Raised when the input value is too small"""
     pass

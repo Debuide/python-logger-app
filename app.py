@@ -3,6 +3,9 @@
 from error import ValueTooSmallError
 from error import ValueTooLargeError
 from error import AlphaError, OffGridError, CrashError
+
+from distutils.errors import DistutilsPlatformError, DistutilsExecError
+
 from flask import Flask
 
 import json
@@ -89,6 +92,17 @@ def log_grid_exception():
 # ‘/’ URL is bound with hello_world() function.
 def log_crash_exception():
     raise CrashError
+
+@app.route("/dist-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_dist_exception():
+    raise  DistutilsExecError 
+
+@app.route("/platform-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_platform_exception():
+    raise  DistutilsPlatformError 
+
 
 # main driver function
 if __name__ == "__main__":
