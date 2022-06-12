@@ -69,16 +69,6 @@ def health_check():
     logger.info("ping localhost")
     return {"status": 200}
 
-@app.route("/parseable-exception")
-# ‘/’ URL is bound with hello_world() function.
-def log_parseable_exception():
-    raise ValueTooLargeError
-
-@app.route("/sample-exception")
-# ‘/’ URL is bound with hello_world() function.
-def log_sample_exception():
-    raise ValueTooSmallError
-
 @app.route("/test-exception")
 # ‘/’ URL is bound with hello_world() function.
 def log_test_exception():
