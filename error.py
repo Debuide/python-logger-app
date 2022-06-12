@@ -3,8 +3,6 @@ class Error(Exception):
     """Base class for other exceptions"""
     pass
 
-
-
 class DistutilsError (Exception):
     """The root of all Distutils evil."""
     pass
