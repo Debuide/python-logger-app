@@ -4,12 +4,31 @@ from error import ValueTooSmallError
 from error import ValueTooLargeError
 from error import AlphaError, OffGridError, CrashError
 
+###############################################################
+# Exception classes used by the distutils implementation classes
+###############################################################
 from distutils.errors import \
      DistutilsExecError, DistutilsPlatformError, \
      CompileError, LibError, LinkError, UnknownFileError
+
+###############################################################
+# Exception classes used by the CCompiler implementation classes
+###############################################################
+
 from distutils.ccompiler import \
      CCompiler, gen_lib_options
 from distutils import log
+
+#############################################################
+                   # HTTP ERROR EXCEPTIONS
+#############################################################
+
+from error import (  
+    HTTPError,
+    BadRequestsError,
+    UnauthorizedError,
+    ServiceUnavailableError,
+)
 
 from flask import Flask
 
@@ -77,16 +96,13 @@ def health_check():
     logger.info("ping localhost")
     return {"status": 200}
 
+##############################################################
+
+
 @app.route("/letter-exception")
 # ‘/’ URL is bound with hello_world() function.
 def log_letter_exception():
     raise AlphaError
-
-
-@app.route("/grid-exception")
-# ‘/’ URL is bound with hello_world() function.
-def log_grid_exception():
-    raise OffGridError
 
 @app.route("/crash-exception")
 # ‘/’ URL is bound with hello_world() function.
@@ -98,10 +114,6 @@ def log_crash_exception():
 def log_dist_exception():
     raise  DistutilsExecError 
 
-@app.route("/platform-exception")
-# ‘/’ URL is bound with hello_world() function.
-def log_platform_exception():
-    raise  DistutilsPlatformError 
 
 @app.route("/compile-exception")
 # ‘/’ URL is bound with hello_world() function.
@@ -118,11 +130,21 @@ def log_library_exception():
 def log_file_exception():
     raise  UnknownFileError 
 
-@app.route("/link-exception")
+@app.route("/http-exception")
 # ‘/’ URL is bound with hello_world() function.
-def log_link_exception():
-    raise  LinkError 
+def log_http_exception():
+    raise  BadRequestsError
 
+
+@app.route("/auth-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_auth_exception():
+    raise  UnauthorizedError
+
+@app.route("/svc-exception")
+# ‘/’ URL is bound with hello_world() function.
+def log_svc_exception():
+    raise  ServiceUnavailableError
 
 # main driver function
 if __name__ == "__main__":

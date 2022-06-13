@@ -23,9 +23,9 @@ class OffGridError(Error):
 class CrashError(Error):
     """Raised when the rover will crash into another rover"""
     pass
-
+###############################################################
 #Exception classes used by the Distutils implementation classes
-
+###############################################################
 
 class DistutilsError (Exception):
     """The root of all Distutils evil."""
@@ -41,9 +41,9 @@ class DistutilsExecError (DistutilsError):
     """Any problems executing an external program (such as the C
     compiler, when compiling C files)."""
     pass
-
+###############################################################
 # Exception classes used by the CCompiler implementation classes
-
+###############################################################
 class CCompilerError (Exception):
     """Some compile/link operation failed."""
 
@@ -63,3 +63,47 @@ class LinkError (CCompilerError):
 
 class UnknownFileError (CCompilerError):
     """Attempt to process an unknown file type."""
+
+
+#############################################################
+                   # HTTP ERROR EXCEPTIONS
+#############################################################
+class HTTPError(Exception):
+    """ Base of all other errors"""
+
+    def __init__(self, *args):
+        if len(args) == 4:
+            self.status_code = args[0]
+            self.reason = args[1]
+            self.body = args[2]
+            self.headers = args[3]
+        else:
+            self.status_code = args[0].code
+            self.reason = args[0].reason
+            self.body = args[0].read()
+            self.headers = args[0].hdrs
+
+    def __reduce__(self):
+        return (
+            HTTPError,
+            (self.status_code, self.reason, self.body, self.headers)
+        )
+
+    @property
+    def to_dict(self):
+        """
+        :return: dict of response error from the API
+        """
+        return json.loads(self.body.decode('utf-8'))
+
+
+class BadRequestsError(HTTPError):
+    pass
+
+
+class UnauthorizedError(HTTPError):
+    pass
+
+class ServiceUnavailableError(HTTPError):
+    pass
+
